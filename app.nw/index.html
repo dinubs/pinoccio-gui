@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pinoccio</title>
+    <link rel="stylesheet" href="css/sweet-alert.css">
+    <link rel="stylesheet" href="css/the.css">
+  </head>
+  <body class="main">
+	<div class="container">
+		<img src="img/pinoccio.png" alt="Pinoccio Logo">
+	  	<label>
+	  		Email or Username
+	  		<input type="text" class="email">
+	  	</label>
+		<label>
+			Password
+	  		<input type="password" class="pw">
+	  	</label>
+	  	<button class="login">Submit</button>
+	</div> 
+  	<script src="sweet-alert.min.js"></script>
+	<script>
+		if(localStorage.token) {
+			window.location.href = "scouts.html"
+		}
+		var $ = require('jQuery');
+		var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+
+		$.support.cors = true;
+		$.ajaxSettings.xhr = function() {
+		    return new XMLHttpRequest();
+		};
+		$(".login").on("click", function(){
+			login();
+		});
+		$( ".email, .pw" ).keypress(function( event ) {
+		  if ( event.which == 13 ) {
+		  	login();
+		  }
+		});
+
+		function login() {
+			console.log($(".email").val());
+			var email = $(".email").val();
+			var pw = $(".pw").val();
+			$.ajax({
+			  type: "POST",
+			  url: "https://api.pinocc.io/v1/login",
+			  data: {
+			  	email: email,
+			  	password: pw
+			  }
+			}).fail(function( data ) {
+				console.log( "Sample of data:", data );
+				swal({   
+					title: "Error!",   
+					text: "Invalid Login Credentials. Try Again!",   
+					type: "error",   
+					confirmButtonText: "Ok" 
+				});
+			}).done(function( data ) {
+				localStorage.token = data.data.token;
+				document.location.href = 'scouts.html';
+			});
+		}
+	</script>
+  </body>
+</html>
