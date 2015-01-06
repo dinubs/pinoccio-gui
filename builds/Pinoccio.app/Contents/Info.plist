@@ -28,7 +28,7 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>Folder</string>
+			<string>Application</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>fold</string>
